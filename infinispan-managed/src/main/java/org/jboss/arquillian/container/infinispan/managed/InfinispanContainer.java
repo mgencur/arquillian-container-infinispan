@@ -284,7 +284,7 @@ public class InfinispanContainer implements DeployableContainer<InfinispanConfig
    {
       if (!(startDir.isDirectory() && startDir.canRead()))
       {
-         throw new IllegalArgumentException("The specified does not exist or cannot be read");
+         throw new IllegalArgumentException("The specified directory does not exist or cannot be read: " + startDir.getAbsolutePath());
       }
    }
 
