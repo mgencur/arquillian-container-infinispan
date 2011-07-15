@@ -78,9 +78,13 @@ public class InfinispanContainer implements DeployableContainer<InfinispanConfig
    public void start() throws LifecycleException
    {
       final String ispnHome = configuration.getIspnHome();
+      final int jmxPort = configuration.getJmxPort();
       final String mainClassName = "org.infinispan.server.core.Main";
       final String preferIPv4 = "-Djava.net.preferIPv4Stack=true";
       final String log4jConfig = "-Dlog4j.configuration=file://" + ispnHome + File.separator + "etc" + File.separator + "log4j.xml";
+      final String jvmJmxSettings = "-Dcom.sun.management.jmxremote.port=" + jmxPort + 
+                                    " -Dcom.sun.management.jmxremote.authenticate=false" +
+                                    " -Dcom.sun.management.jmxremote.ssl=false";
 
       try
       {
@@ -115,6 +119,12 @@ public class InfinispanContainer implements DeployableContainer<InfinispanConfig
 
          cmd.add(preferIPv4);
          cmd.add(log4jConfig);
+
+         for (String param : jvmJmxSettings.split("\\s+"))
+         {
+            cmd.add(param);
+         }
+
          cmd.add(mainClassName);
 
          for (String param : constructProgramArgs())

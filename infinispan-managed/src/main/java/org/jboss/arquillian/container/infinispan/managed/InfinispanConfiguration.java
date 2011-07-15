@@ -74,6 +74,8 @@ public class InfinispanConfiguration implements ContainerConfiguration
    private int startupTimeoutInSeconds = 5;
 
    private int shutdownTimeoutInSeconds = 3;
+   
+   private int jmxPort = 1090;
 
    public void validate() throws ConfigurationException
    {
@@ -299,6 +301,16 @@ public class InfinispanConfiguration implements ContainerConfiguration
    public int getShutdownTimeoutInSeconds()
    {
       return shutdownTimeoutInSeconds;
+   }
+
+   public void setJmxPort(int jmxPort)
+   {
+      this.jmxPort = jmxPort;
+   }
+
+   public int getJmxPort()
+   {
+      return jmxPort;
    }
 
 }
