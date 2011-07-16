@@ -4,8 +4,8 @@
 
     <!-- Parent -->
     <parent>
-        <groupId>org.jboss.arquillian.container</groupId>
-        <artifactId>arquillian-parent-infinispan</artifactId>
+        <groupId>org.jboss.infinispan.arquillian.container</groupId>
+        <artifactId>infinispan-parent-arquillian</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -14,8 +14,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Artifact Configuration -->
-    <artifactId>arquillian-infinispan-managed</artifactId>
-    <name>Arquillian Container Infinispan Managed</name>
+    <artifactId>infinispan-arquillian-container-managed</artifactId>
+    <name>Infinispan Arquillian Container Managed</name>
     <description>Infinispan Managed Container integration for the Arquillian Project</description>
 
     <!-- Properties -->
