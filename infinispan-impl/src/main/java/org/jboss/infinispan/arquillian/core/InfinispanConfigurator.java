@@ -27,6 +27,7 @@ import org.jboss.arquillian.core.api.InstanceProducer;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
+import org.jboss.as.arquillian.container.CommonContainerConfiguration;
 
 import org.jboss.infinispan.arquillian.container.managed.InfinispanConfiguration;
 
@@ -71,7 +72,17 @@ public class InfinispanConfigurator
       }
       else
       {
-         throw new RuntimeException("Retrieving stastistics from a non-community Infinispan is not allowed yet");
+         //throw new RuntimeException("Retrieving stastistics from a non-community Infinispan is not allowed yet");
+         CommonContainerConfiguration conf;
+         try
+         {
+            conf = (CommonContainerConfiguration) event.getContainer().createDeployableConfiguration();
+            info = new StandaloneInfinispanInfoImpl(conf.getBindAddress().getHostName(), conf.getJmxPort());
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException("Could not create deployable configuration");
+         }
       }
 
       infinispanContext.get().add(event.getContainer().getContainerConfiguration().getContainerName(), info);
