@@ -30,6 +30,8 @@ import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
 import org.jboss.as.arquillian.container.CommonContainerConfiguration;
 
 import org.jboss.infinispan.arquillian.container.managed.InfinispanConfiguration;
+import org.jboss.infinispan.arquillian.utils.MBeanObjectsEDG;
+import org.jboss.infinispan.arquillian.utils.MBeanObjectsStandalone;
 
 /**
  * Creates {@link InfinispanContext} and stores {@link InfinispanInfo} object
@@ -63,7 +65,7 @@ public class InfinispanConfigurator
          try
          {
             conf = (InfinispanConfiguration) event.getContainer().createDeployableConfiguration();
-            info = new StandaloneInfinispanInfoImpl(conf.getHost(), conf.getJmxPort());
+            info = new InfinispanInfoImpl(conf.getHost(), conf.getJmxPort(), new MBeanObjectsStandalone());
          }
          catch (Exception e)
          {
@@ -77,7 +79,7 @@ public class InfinispanConfigurator
          try
          {
             conf = (CommonContainerConfiguration) event.getContainer().createDeployableConfiguration();
-            info = new StandaloneInfinispanInfoImpl(conf.getBindAddress().getHostName(), conf.getJmxPort());
+            info = new InfinispanInfoImpl(conf.getBindAddress().getHostName(), conf.getJmxPort(), new MBeanObjectsEDG());
          }
          catch (Exception e)
          {

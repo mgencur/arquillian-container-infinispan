@@ -35,23 +35,26 @@ import org.jboss.infinispan.arquillian.utils.MBeanUtils;
 public class CacheInfo
 {
    private MBeanServerConnectionProvider provider;
+   
+   private MBeanObjects mBeans;
 
    private String cacheManagerName;
 
    private String cacheName;
 
-   public CacheInfo(String cacheName, String cacheManagerName, MBeanServerConnectionProvider provider)
+   public CacheInfo(String cacheName, String cacheManagerName, MBeanServerConnectionProvider provider, MBeanObjects mBeans)
    {
       this.cacheName = cacheName;
       this.cacheManagerName = cacheManagerName;
       this.provider = provider;
+      this.mBeans = mBeans;
    }
 
    public String getCacheName()
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheMBean(cacheName, cacheManagerName), CacheAttributes.CACHE_NAME);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheMBean(cacheName, cacheManagerName), CacheAttributes.CACHE_NAME);
       }
       catch (Exception e)
       {
@@ -63,7 +66,7 @@ public class CacheInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheMBean(cacheName, cacheManagerName), CacheAttributes.CACHE_STATUS);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheMBean(cacheName, cacheManagerName), CacheAttributes.CACHE_STATUS);
       }
       catch (Exception e)
       {
@@ -75,7 +78,7 @@ public class CacheInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheStatisticsMBean(cacheName, cacheManagerName), stats.toString());
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheStatisticsMBean(cacheName, cacheManagerName), stats.toString());
       }
       catch (Exception e)
       {

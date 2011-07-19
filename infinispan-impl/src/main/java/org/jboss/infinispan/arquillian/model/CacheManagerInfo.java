@@ -37,11 +37,14 @@ public class CacheManagerInfo
    private MBeanServerConnectionProvider provider;
 
    private String cacheManagerName;
+   
+   private MBeanObjects mBeans;
 
-   public CacheManagerInfo(String cacheManagerName, MBeanServerConnectionProvider provider)
+   public CacheManagerInfo(String cacheManagerName, MBeanServerConnectionProvider provider, MBeanObjects mBeans)
    {
       this.cacheManagerName = cacheManagerName;
       this.provider = provider;
+      this.mBeans = mBeans;
    }
 
    public int getCreatedCacheCount()
@@ -49,7 +52,7 @@ public class CacheManagerInfo
       String createdCacheCount = null;
       try
       {
-         createdCacheCount = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.CREATED_CACHE_COUNT);
+         createdCacheCount = MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.CREATED_CACHE_COUNT);
       }
       catch (Exception e)
       {
@@ -63,7 +66,7 @@ public class CacheManagerInfo
       String definedCacheCount = null;
       try
       {
-         definedCacheCount = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.DEFINED_CACHE_COUNT);
+         definedCacheCount = MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.DEFINED_CACHE_COUNT);
       }
       catch (Exception e)
       {
@@ -77,7 +80,7 @@ public class CacheManagerInfo
       String runningCacheCount = null;
       try
       {
-         runningCacheCount = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.RUNNING_CACHE_COUNT);
+         runningCacheCount = MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.RUNNING_CACHE_COUNT);
       }
       catch (Exception e)
       {
@@ -90,7 +93,7 @@ public class CacheManagerInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.RUNNING_CACHE_COUNT);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.RUNNING_CACHE_COUNT);
       }
       catch (Exception e)
       {
@@ -103,7 +106,7 @@ public class CacheManagerInfo
       String clusterSize = null;
       try
       {
-         clusterSize = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.CLUSTER_SIZE);
+         clusterSize = MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.CLUSTER_SIZE);
       }
       catch (Exception e)
       {
@@ -116,7 +119,7 @@ public class CacheManagerInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.CACHE_MANAGER_STATUS);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.CACHE_MANAGER_STATUS);
       }
       catch (Exception e)
       {
@@ -128,7 +131,7 @@ public class CacheManagerInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.NODE_ADDRESS);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.NODE_ADDRESS);
       }
       catch (Exception e)
       {
@@ -140,7 +143,7 @@ public class CacheManagerInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.VERSION);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.VERSION);
       }
       catch (Exception e)
       {
@@ -152,7 +155,7 @@ public class CacheManagerInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.DEFINED_CACHE_NAMES);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.DEFINED_CACHE_NAMES);
       }
       catch (Exception e)
       {
@@ -164,7 +167,7 @@ public class CacheManagerInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.CLUSTER_MEMBERS);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.CLUSTER_MEMBERS);
       }
       catch (Exception e)
       {
@@ -176,7 +179,7 @@ public class CacheManagerInfo
    {
       try
       {
-         return MBeanUtils.getMBeanAttribute(provider, MBeanObjects.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.PHYSICAL_ADDRESSES);
+         return MBeanUtils.getMBeanAttribute(provider, mBeans.getCacheManagerMBean(cacheManagerName), CacheManagerAttributes.PHYSICAL_ADDRESSES);
       }
       catch (Exception e)
       {
@@ -188,7 +191,7 @@ public class CacheManagerInfo
    {
       try
       {
-         return new CacheInfo(cacheName, cacheManagerName, provider);
+         return new CacheInfo(cacheName, cacheManagerName, provider, mBeans);
       }
       catch (Exception e)
       {
@@ -201,7 +204,7 @@ public class CacheManagerInfo
       String defaultCacheName = "___defaultcache(local)";
       try
       {
-         return new CacheInfo(defaultCacheName, cacheManagerName, provider);
+         return new CacheInfo(defaultCacheName, cacheManagerName, provider, mBeans);
       }
       catch (Exception e)
       {

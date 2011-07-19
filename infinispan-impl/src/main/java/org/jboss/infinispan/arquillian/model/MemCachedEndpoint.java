@@ -37,10 +37,13 @@ import org.jboss.infinispan.arquillian.utils.MBeanUtils;
 public class MemCachedEndpoint
 {
    private MBeanServerConnectionProvider provider;
+   
+   private MBeanObjects mBeans;
 
-   public MemCachedEndpoint(MBeanServerConnectionProvider provider)
+   public MemCachedEndpoint(MBeanServerConnectionProvider provider, MBeanObjects mBeans)
    {
       this.provider = provider;
+      this.mBeans = mBeans;
    }
 
    public InetAddress getInetAddress()
@@ -48,7 +51,7 @@ public class MemCachedEndpoint
       String hostname;
       try
       {
-         hostname = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.MEMCACHED_SERVER_MBEAN, ServerModuleAttributes.HOST_NAME);
+         hostname = MBeanUtils.getMBeanAttribute(provider, mBeans.getMemCachedServerMBean(), ServerModuleAttributes.HOST_NAME);
          return InetAddress.getByName(hostname);
       }
       catch (Exception e)
@@ -62,7 +65,7 @@ public class MemCachedEndpoint
       String port;
       try
       {
-         port = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.MEMCACHED_SERVER_MBEAN, ServerModuleAttributes.PORT);
+         port = MBeanUtils.getMBeanAttribute(provider, mBeans.getMemCachedServerMBean(), ServerModuleAttributes.PORT);
       }
       catch (Exception e)
       {

@@ -22,7 +22,10 @@
 package org.jboss.infinispan.arquillian.model;
 
 import java.net.InetAddress;
+
+import org.jboss.infinispan.arquillian.utils.MBeanObjects;
 import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
+import org.jboss.infinispan.arquillian.utils.MBeanUtils;
 
 /**
  * Hold REST server module's context path. Can be retrieved inside a test to
@@ -37,16 +40,27 @@ public class RESTEndpoint
    private String contextPath = "datagrid/rest";
 
    private MBeanServerConnectionProvider provider;
+   
+   private MBeanObjects mBeans;
 
-   public RESTEndpoint(MBeanServerConnectionProvider provider)
+   public RESTEndpoint(MBeanServerConnectionProvider provider, MBeanObjects mBeans)
    {
       this.provider = provider;
+      this.mBeans = mBeans;
    }
 
    public InetAddress getInetAddress()
    {
-      //TODO: return proper address based on information from EDG
-      return null;
+      String hostname;
+      try
+      {
+         hostname = MBeanUtils.getMBeanAttribute(provider, mBeans.getMemCachedServerMBean(), ServerModuleAttributes.HOST_NAME);
+         return InetAddress.getByName(hostname);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Could not retrieve HotRod host", e);
+      }
    }
 
    public String getContextPath()

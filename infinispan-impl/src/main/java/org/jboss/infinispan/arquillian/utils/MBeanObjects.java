@@ -21,36 +21,15 @@
  */
 package org.jboss.infinispan.arquillian.utils;
 
-/**
- * MBean constants for accessing Infinispan data via JMX.
- * 
- * @author <a href="mailto:mgencur@redhat.com">Martin Gencur</a>
- * 
- */
-public class MBeanObjects
+public interface MBeanObjects
 {
-   public static final String HOTROD_SERVER_MBEAN = "org.infinispan:type=Server,name=HotRod,component=Transport";
+   public String getCacheManagerMBean(String cacheManagerName);
 
-   public static final String MEMCACHED_SERVER_MBEAN = "org.infinispan:type=Server,name=Memcached,component=Transport";
+   public String getCacheMBean(String cacheName, String cacheManagerName);
 
-   public static String genericCacheManagerMBean = "org.infinispan:type=CacheManager,name=\"{CACHE_MANAGER}\",component=CacheManager";
-
-   public static String genericCacheMBean = "org.infinispan:type=Cache,name=\"{CACHE}\",manager=\"{CACHE_MANAGER}\",component=Cache";
-
-   public static String genericCacheStatisticsMBean = "org.infinispan:type=Cache,name=\"{CACHE}\",manager=\"{CACHE_MANAGER}\",component=Statistics";
-
-   public static String getCacheManagerMBean(String cacheManagerName)
-   {
-      return genericCacheManagerMBean.replace("{CACHE_MANAGER}", cacheManagerName);
-   }
-
-   public static String getCacheMBean(String cacheName, String cacheManagerName)
-   {
-      return genericCacheMBean.replace("{CACHE}", cacheName).replace("{CACHE_MANAGER}", cacheManagerName);
-   }
-
-   public static String getCacheStatisticsMBean(String cacheName, String cacheManagerName)
-   {
-      return genericCacheStatisticsMBean.replace("{CACHE}", cacheName).replace("{CACHE_MANAGER}", cacheManagerName);
-   }
+   public String getCacheStatisticsMBean(String cacheName, String cacheManagerName);
+   
+   public String getHorRodServerMBean();
+   
+   public String getMemCachedServerMBean();
 }

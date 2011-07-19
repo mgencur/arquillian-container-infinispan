@@ -22,8 +22,6 @@
 package org.jboss.infinispan.arquillian.model;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import org.jboss.infinispan.arquillian.utils.MBeanObjects;
 import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
 import org.jboss.infinispan.arquillian.utils.MBeanUtils;
@@ -38,10 +36,13 @@ import org.jboss.infinispan.arquillian.utils.MBeanUtils;
 public class HotRodEndpoint
 {
    private MBeanServerConnectionProvider provider;
+   
+   private MBeanObjects mBeans;
 
-   public HotRodEndpoint(MBeanServerConnectionProvider provider)
+   public HotRodEndpoint(MBeanServerConnectionProvider provider, MBeanObjects mBeans)
    {
       this.provider = provider;
+      this.mBeans = mBeans;
    }
 
    public InetAddress getInetAddress()
@@ -49,7 +50,7 @@ public class HotRodEndpoint
       String hostname;
       try
       {
-         hostname = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.HOTROD_SERVER_MBEAN, ServerModuleAttributes.HOST_NAME);
+         hostname = MBeanUtils.getMBeanAttribute(provider, mBeans.getHorRodServerMBean(), ServerModuleAttributes.HOST_NAME);
          return InetAddress.getByName(hostname);
       }
       catch (Exception e)
@@ -63,7 +64,7 @@ public class HotRodEndpoint
       String port;
       try
       {
-         port = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.HOTROD_SERVER_MBEAN, ServerModuleAttributes.PORT);
+         port = MBeanUtils.getMBeanAttribute(provider, mBeans.getHorRodServerMBean(), ServerModuleAttributes.PORT);
       }
       catch (Exception e)
       {

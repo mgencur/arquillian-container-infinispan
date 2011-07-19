@@ -27,6 +27,7 @@ import org.jboss.infinispan.arquillian.model.CacheManagerInfo;
 import org.jboss.infinispan.arquillian.model.HotRodEndpoint;
 import org.jboss.infinispan.arquillian.model.MemCachedEndpoint;
 import org.jboss.infinispan.arquillian.model.RESTEndpoint;
+import org.jboss.infinispan.arquillian.utils.MBeanObjects;
 import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
 
 /**
@@ -35,37 +36,40 @@ import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
  * @author <a href="mailto:mgencur@redhat.com">Martin Gencur</a>
  * 
  */
-public class StandaloneInfinispanInfoImpl implements InfinispanInfo
+public class InfinispanInfoImpl implements InfinispanInfo
 {
    private MBeanServerConnectionProvider provider;
+   
+   private MBeanObjects mBeans;
 
-   public StandaloneInfinispanInfoImpl(String host, int jmxPort)
+   public InfinispanInfoImpl(String host, int jmxPort, MBeanObjects mBeans)
    {
       this.provider = new MBeanServerConnectionProvider(getInetAddress(host), jmxPort);
+      this.mBeans = mBeans;
    }
 
    @Override
    public CacheManagerInfo getDefaultCacheManager()
    {
-      return new CacheManagerInfo("DefaultCacheManager", provider);
+      return new CacheManagerInfo("DefaultCacheManager", provider, mBeans);
    }
 
    @Override
    public CacheManagerInfo getCacheManager(String cacheManagerName)
    {
-      return new CacheManagerInfo(cacheManagerName, provider);
+      return new CacheManagerInfo(cacheManagerName, provider, mBeans);
    }
 
    @Override
    public HotRodEndpoint getHotrodEndpoint()
    {
-      return new HotRodEndpoint(provider);
+      return new HotRodEndpoint(provider, mBeans);
    }
 
    @Override
    public MemCachedEndpoint getMemcachedEndpoint()
    {
-      return new MemCachedEndpoint(provider);
+      return new MemCachedEndpoint(provider, mBeans);
    }
 
    @Override
