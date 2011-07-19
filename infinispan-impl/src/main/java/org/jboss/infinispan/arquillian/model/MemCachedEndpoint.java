@@ -56,7 +56,7 @@ public class MemCachedEndpoint
       }
       catch (Exception e)
       {
-         throw new RuntimeException("Could not retrieve HotRod host", e);
+         throw new RuntimeException("Could not retrieve MemCached host", e);
       }
    }
 
@@ -69,7 +69,7 @@ public class MemCachedEndpoint
       }
       catch (Exception e)
       {
-         throw new RuntimeException("Could not retrieve HotRod port", e);
+         throw new RuntimeException("Could not retrieve MemCached port", e);
       }
       return Integer.parseInt(port);
    }
