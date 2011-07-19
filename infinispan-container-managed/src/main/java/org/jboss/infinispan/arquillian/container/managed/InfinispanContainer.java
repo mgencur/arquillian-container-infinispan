@@ -112,18 +112,12 @@ public class InfinispanContainer implements DeployableContainer<InfinispanConfig
 
          cmd.add(constructClassPath(allLibs));
 
-         for (String param : configuration.getJavaVmArguments().split("\\s+"))
-         {
-            cmd.add(param);
-         }
-
+         splitAndAdd(cmd, configuration.getJavaVmArguments());
+         
          cmd.add(preferIPv4);
          cmd.add(log4jConfig);
 
-         for (String param : jvmJmxSettings.split("\\s+"))
-         {
-            cmd.add(param);
-         }
+         splitAndAdd(cmd, jvmJmxSettings);
 
          cmd.add(mainClassName);
 
@@ -142,6 +136,14 @@ public class InfinispanContainer implements DeployableContainer<InfinispanConfig
       catch (Exception e)
       {
          throw new LifecycleException("Could not start managed container", e);
+      }
+   }
+
+   private void splitAndAdd(List<String> cmd, String arg)
+   {
+      for (String param : arg.split("\\s+"))
+      {
+         cmd.add(param);
       }
    }
 
