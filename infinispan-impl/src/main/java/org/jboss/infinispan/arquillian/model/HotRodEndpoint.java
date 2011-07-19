@@ -22,6 +22,11 @@
 package org.jboss.infinispan.arquillian.model;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.jboss.infinispan.arquillian.utils.MBeanObjects;
+import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
+import org.jboss.infinispan.arquillian.utils.MBeanUtils;
 
 /**
  * Hold HotRod server module's port number. Can be retrieved inside a test to
@@ -30,23 +35,40 @@ import java.net.InetAddress;
  * @author <a href="mailto:mgencur@redhat.com">Martin Gencur</a>
  * 
  */
-public class HotRodEndpoint extends CommonEndpoint
+public class HotRodEndpoint
 {
-   private int port;
-   
-   public HotRodEndpoint()
+   private MBeanServerConnectionProvider provider;
+
+   public HotRodEndpoint(MBeanServerConnectionProvider provider)
    {
-      this.port = 11222;
+      this.provider = provider;
    }
 
-   public HotRodEndpoint(InetAddress addr, int port)
+   public InetAddress getInetAddress()
    {
-      super(addr);
-      this.port = port;
+      String hostname;
+      try
+      {
+         hostname = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.HOTROD_SERVER_MBEAN, ServerModuleAttributes.HOST_NAME);
+         return InetAddress.getByName(hostname);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Could not retrieve HotRod host", e);
+      }
    }
 
    public int getPort()
    {
-      return port;
+      String port;
+      try
+      {
+         port = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.HOTROD_SERVER_MBEAN, ServerModuleAttributes.PORT);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Could not retrieve HotRod port", e);
+      }
+      return Integer.parseInt(port);
    }
 }

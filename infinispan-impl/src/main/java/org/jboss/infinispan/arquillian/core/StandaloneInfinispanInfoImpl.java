@@ -23,15 +23,11 @@ package org.jboss.infinispan.arquillian.core;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
 import org.jboss.infinispan.arquillian.model.CacheManagerInfo;
 import org.jboss.infinispan.arquillian.model.HotRodEndpoint;
 import org.jboss.infinispan.arquillian.model.MemCachedEndpoint;
 import org.jboss.infinispan.arquillian.model.RESTEndpoint;
-import org.jboss.infinispan.arquillian.model.ServerModuleAttributes;
-import org.jboss.infinispan.arquillian.utils.MBeanObjects;
 import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
-import org.jboss.infinispan.arquillian.utils.MBeanUtils;
 
 /**
  * Implementation of {@link InfinispanInfo} for Community Infinispan Server
@@ -63,35 +59,13 @@ public class StandaloneInfinispanInfoImpl implements InfinispanInfo
    @Override
    public HotRodEndpoint getHotrodEndpoint()
    {
-      String hostname;
-      String port;
-      try
-      {
-         hostname = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.HOTROD_SERVER_MBEAN, ServerModuleAttributes.HOST_NAME);
-         port = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.HOTROD_SERVER_MBEAN, ServerModuleAttributes.PORT);
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException("Could not retrieve HotRod endpoint", e);
-      }
-      return new HotRodEndpoint(getInetAddress(hostname), Integer.parseInt(port));
+      return new HotRodEndpoint(provider);
    }
 
    @Override
    public MemCachedEndpoint getMemcachedEndpoint()
    {
-      String hostname;
-      String port;
-      try
-      {
-         hostname = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.MEMCACHED_SERVER_MBEAN, ServerModuleAttributes.HOST_NAME);
-         port = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.MEMCACHED_SERVER_MBEAN, ServerModuleAttributes.PORT);
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException("Could not retrieve MemCached endpoint", e);
-      }
-      return new MemCachedEndpoint(getInetAddress(hostname), Integer.parseInt(port));
+      return new MemCachedEndpoint(provider);
    }
 
    @Override

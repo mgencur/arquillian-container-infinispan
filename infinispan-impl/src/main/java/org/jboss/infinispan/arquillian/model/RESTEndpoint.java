@@ -22,28 +22,31 @@
 package org.jboss.infinispan.arquillian.model;
 
 import java.net.InetAddress;
+import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
 
 /**
- * Hold REST server module's context path. Can be retrieved inside a test
- * to find out on which contextPath REST service is running. Available only for
+ * Hold REST server module's context path. Can be retrieved inside a test to
+ * find out on which contextPath REST service is running. Available only for
  * EDG, not for community Infinispan Server.
  * 
  * @author <a href="mailto:mgencur@redhat.com">Martin Gencur</a>
  * 
  */
-public class RESTEndpoint extends CommonEndpoint
+public class RESTEndpoint
 {
-   private String contextPath;
-   
-   public RESTEndpoint()
+   private String contextPath = "datagrid/rest";
+
+   private MBeanServerConnectionProvider provider;
+
+   public RESTEndpoint(MBeanServerConnectionProvider provider)
    {
-      this.contextPath = "datagrid/rest"; ///infinispan-server-rest/rest
+      this.provider = provider;
    }
 
-   public RESTEndpoint(InetAddress addr, String contextPath)
+   public InetAddress getInetAddress()
    {
-      super(addr);
-      this.contextPath = contextPath;
+      //TODO: return proper address based on information from EDG
+      return null;
    }
 
    public String getContextPath()

@@ -23,6 +23,10 @@ package org.jboss.infinispan.arquillian.model;
 
 import java.net.InetAddress;
 
+import org.jboss.infinispan.arquillian.utils.MBeanObjects;
+import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
+import org.jboss.infinispan.arquillian.utils.MBeanUtils;
+
 /**
  * Hold MemCached server module's port number. Can be retrieved inside a test to
  * find out on which port MemCached is running.
@@ -30,23 +34,40 @@ import java.net.InetAddress;
  * @author <a href="mailto:mgencur@redhat.com">Martin Gencur</a>
  * 
  */
-public class MemCachedEndpoint extends CommonEndpoint
+public class MemCachedEndpoint
 {
-   private int port;
+   private MBeanServerConnectionProvider provider;
 
-   public MemCachedEndpoint()
+   public MemCachedEndpoint(MBeanServerConnectionProvider provider)
    {
-      this.port = 11211;
+      this.provider = provider;
    }
 
-   public MemCachedEndpoint(InetAddress addr, int port)
+   public InetAddress getInetAddress()
    {
-      super(addr);
-      this.port = port;
+      String hostname;
+      try
+      {
+         hostname = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.MEMCACHED_SERVER_MBEAN, ServerModuleAttributes.HOST_NAME);
+         return InetAddress.getByName(hostname);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Could not retrieve HotRod host", e);
+      }
    }
 
    public int getPort()
    {
-      return port;
+      String port;
+      try
+      {
+         port = MBeanUtils.getMBeanAttribute(provider, MBeanObjects.MEMCACHED_SERVER_MBEAN, ServerModuleAttributes.PORT);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("Could not retrieve HotRod port", e);
+      }
+      return Integer.parseInt(port);
    }
 }
