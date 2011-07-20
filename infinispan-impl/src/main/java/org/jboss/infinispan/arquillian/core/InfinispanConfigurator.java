@@ -30,6 +30,7 @@ import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
 import org.jboss.as.arquillian.container.CommonContainerConfiguration;
 import org.jboss.infinispan.arquillian.container.managed.InfinispanConfiguration;
 import org.jboss.infinispan.arquillian.utils.MBeanObjectsProvider;
+import org.jboss.infinispan.arquillian.utils.MBeanObjectsProvider.Domain;
 
 /**
  * Creates {@link InfinispanContext} and stores {@link InfinispanInfo} object
@@ -40,7 +41,7 @@ import org.jboss.infinispan.arquillian.utils.MBeanObjectsProvider;
  */
 public class InfinispanConfigurator
 {
-   private static final String STANDALONE_FLAG = "ispnHome";
+   private final String STANDALONE_FLAG = "ispnHome";
 
    @Inject
    @SuiteScoped
@@ -72,7 +73,6 @@ public class InfinispanConfigurator
       }
       else
       {
-         //throw new RuntimeException("Retrieving stastistics from a non-community Infinispan is not allowed yet");
          CommonContainerConfiguration conf;
          try
          {
@@ -84,7 +84,7 @@ public class InfinispanConfigurator
             throw new RuntimeException("Could not create deployable configuration", e);
          }
       }
-
+      
       infinispanContext.get().add(event.getContainer().getContainerConfiguration().getContainerName(), info);
    }
 }

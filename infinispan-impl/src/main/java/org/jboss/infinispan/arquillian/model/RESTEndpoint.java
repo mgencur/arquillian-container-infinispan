@@ -37,7 +37,7 @@ import org.jboss.infinispan.arquillian.utils.MBeanUtils;
  */
 public class RESTEndpoint
 {
-   private String contextPath = "/datagrid";
+   private final String contextPath = "/datagrid";
 
    private MBeanServerConnectionProvider provider;
    

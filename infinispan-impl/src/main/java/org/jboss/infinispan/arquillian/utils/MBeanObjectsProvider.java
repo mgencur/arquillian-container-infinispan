@@ -46,8 +46,9 @@ public class MBeanObjectsProvider
       this.memCachedServerMBean = domain + ":type=Server,name=Memcached,component=Transport";
    }
 
-   public String getCacheManagerMBean(String cacheManagerName, MBeanServerConnectionProvider provider)
-   {
+   public String getCacheManagerMBean(MBeanServerConnectionProvider provider, String cacheManagerName)
+   {  
+      //e.g. org.infinispan:type=CacheManager,name="default",component=CacheManager
       String pattern = domain + ":" + "type=CacheManager,name=\"" + cacheManagerName + "\",component=CacheManager";
       List<String> mBeanNames = MBeanUtils.getMBeanNamesByPattern(provider, pattern);
       if (mBeanNames.size() != 1)
@@ -60,7 +61,7 @@ public class MBeanObjectsProvider
       }
    }
 
-   public String getCacheMBean(String cacheName, String cacheManagerName, MBeanServerConnectionProvider provider)
+   public String getCacheMBean(MBeanServerConnectionProvider provider, String cacheName, String cacheManagerName)
    {
       // name of the cache is "*" here -> get all cache mbeans
       String pattern = domain + ":" + "type=Cache,*,manager=\"" + cacheManagerName + "\",component=Cache";
@@ -83,7 +84,7 @@ public class MBeanObjectsProvider
       }
    }
 
-   public String getCacheStatisticsMBean(String cacheName, String cacheManagerName, MBeanServerConnectionProvider provider)
+   public String getCacheStatisticsMBean(MBeanServerConnectionProvider provider, String cacheName, String cacheManagerName)
    {
       // name of the cache is "*" here -> get all cache statistics mbeans
       String pattern = domain + ":" + "type=Cache,*,manager=\"" + cacheManagerName + "\",component=Statistics";
@@ -136,5 +137,12 @@ public class MBeanObjectsProvider
    public void setDomain(String domain)
    {
       this.domain = domain;
+   }
+   
+   public class Domain
+   {
+      public static final String STANDALONE = "org.infinispan";
+
+      public static final String EDG = "jboss.infinispan";
    }
 }

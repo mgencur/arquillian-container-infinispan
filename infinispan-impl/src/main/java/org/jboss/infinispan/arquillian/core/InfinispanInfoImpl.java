@@ -28,6 +28,7 @@ import org.jboss.infinispan.arquillian.model.HotRodEndpoint;
 import org.jboss.infinispan.arquillian.model.MemCachedEndpoint;
 import org.jboss.infinispan.arquillian.model.RESTEndpoint;
 import org.jboss.infinispan.arquillian.utils.MBeanObjectsProvider;
+import org.jboss.infinispan.arquillian.utils.MBeanObjectsProvider.Domain;
 import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
 
 /**
@@ -55,18 +56,18 @@ public class InfinispanInfoImpl implements InfinispanInfo
    {
       if (mBeans.getDomain().equals(Domain.EDG))
       {
-         return new CacheManagerInfo("default", provider, mBeans);
+         return new CacheManagerInfo(provider, mBeans, "default");
       }
       else
       {
-         return new CacheManagerInfo("DefaultCacheManager", provider, mBeans);
+         return new CacheManagerInfo(provider, mBeans, "DefaultCacheManager");
       }     
    }
 
    @Override
    public CacheManagerInfo getCacheManager(String cacheManagerName)
    {
-      return new CacheManagerInfo(cacheManagerName, provider, mBeans);
+      return new CacheManagerInfo(provider, mBeans, cacheManagerName);
    }
 
    @Override
