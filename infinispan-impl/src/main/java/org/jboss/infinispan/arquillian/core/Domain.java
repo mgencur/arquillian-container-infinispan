@@ -19,17 +19,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.infinispan.arquillian.utils;
+package org.jboss.infinispan.arquillian.core;
 
-public interface MBeanObjects
+/**
+ * Domain constants for JMX.
+ * 
+ * @author <a href="mgencur@redhat.com>Martin Gencur</a>
+ * 
+ */
+public class Domain
 {
-   public String getCacheManagerMBean(String cacheManagerName);
+   public static final String STANDALONE = "org.infinispan";
 
-   public String getCacheMBean(String cacheName, String cacheManagerName);
-
-   public String getCacheStatisticsMBean(String cacheName, String cacheManagerName);
-   
-   public String getHorRodServerMBean();
-   
-   public String getMemCachedServerMBean();
+   public static final String EDG = "jboss.infinispan";
 }

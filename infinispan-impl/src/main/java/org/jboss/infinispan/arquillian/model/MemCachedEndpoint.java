@@ -23,7 +23,7 @@ package org.jboss.infinispan.arquillian.model;
 
 import java.net.InetAddress;
 
-import org.jboss.infinispan.arquillian.utils.MBeanObjects;
+import org.jboss.infinispan.arquillian.utils.MBeanObjectsProvider;
 import org.jboss.infinispan.arquillian.utils.MBeanServerConnectionProvider;
 import org.jboss.infinispan.arquillian.utils.MBeanUtils;
 
@@ -38,9 +38,9 @@ public class MemCachedEndpoint
 {
    private MBeanServerConnectionProvider provider;
    
-   private MBeanObjects mBeans;
+   private MBeanObjectsProvider mBeans;
 
-   public MemCachedEndpoint(MBeanServerConnectionProvider provider, MBeanObjects mBeans)
+   public MemCachedEndpoint(MBeanServerConnectionProvider provider, MBeanObjectsProvider mBeans)
    {
       this.provider = provider;
       this.mBeans = mBeans;
